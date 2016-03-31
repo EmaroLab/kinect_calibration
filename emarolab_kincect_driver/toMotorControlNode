@@ -1,0 +1,57 @@
+
+for multiple kinects
+	http://answers.ros.org/question/34443/kinect-aux-nui-motor/
+
+for kinectB run 					$ rosparam set device_index 1
+on the same terminal befaure to run (A)
+
+
+
+
+
+
+ros package tutorial
+	http://wiki.ros.org/kinect_aux
+
+
+(A) runt the service   					$ rosrun kinect_aux kinect_aux_node
+move kinect with angle in grad w.r.t. gravity 		$ rostopic pub /tilt_angle std_msgs/Float64 -- -15
+see the staste of the kinect				$ rostopic echo /cur_tilt_angle
+
+
+il centro della kinect (parallela a camera_link) è a -32° (+3°:-61°) rispetto alla gravità
+il kinect per vedere il tavolo è settato per stare a -60°(misurabile~=59.5°) rispetto alla gravita. Quindi a -(59.5-32)=-27.5° rispetto al camera link (in rad=-0.4800) (considerando la trasformazione di 90° del frame optical nel launch si è messo il valore: -pi/2+rad=-2.0508)
+Il launcher dei frame della kinect si trova sull pacchetto ros rgbd_launch nel percorso: /launch/kinect_frames.launch.
+
+
+
+
+
+
+to move the head of the baxter:				rostopic pub /robot/head/command_head_pan baxter_core_msgs/HeadPanCommand -- 0.0 100
+
+to control camera on baxter 				rosrun baxter_tools camera_control.py -o left_hand_camera -r 1280x800
+
+ricordati che i punti pubblicati della kinect sul topic /camera/dept/points sono riferiti al frame camera_depth_optical_frame
+
+
+
+
+
+
+
+
+
+
+baxter teaching by demostration
+rosrun baxter_interface joint_trajectory_action_server.py
+
+rosrun baxter_examples joint_recorder.py -f ~/example
+rosrun baxter_examples joint_trajectory_file_playback.py -f /home/luca-phd/example
+
+
+BAXTER MOUVIT TUTORIAL
+rosrun baxter_interface joint_traory_action_server.py
+roslaunch baxter_moveit_config demo_kinect.launch
+
+roslaunch baxter_moveit_config demo_baxter.launch
