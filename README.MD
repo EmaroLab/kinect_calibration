@@ -2,6 +2,9 @@
 
 This repository includes a few tools you may find useful while working with a Kinect, especially if you plan to use it in conjuction with a Baxter Robot.
 
+Further documentation is included in each folder.
+
+
 | Folder | Description |
 | ------ | ----------- |
 | [baxter\_frame\_calibration](https://github.com/EmaroLab/kinect_calibration/tree/master/baxter_frame_calibration) | Includes files necessary to correctly attach Freenect ROS driver frames to a Baxter robot. |
@@ -9,7 +12,7 @@ This repository includes a few tools you may find useful while working with a Ki
 | [kinectA_calibration(spare)](https://github.com/EmaroLab/kinect_calibration/tree/master/kinectA_calibration(spare)) | Contains our latest calibration of the spare Kinect. |
 | [kinectB_calibration(baxter)](https://github.com/EmaroLab/kinect_calibration/tree/master/kinectB_calibration(baxter)) | Contains our latest calibration of the Kinect mounted on the Baxter robot. |
 
-Further documentation is included in each folder.
+
 
 
 
