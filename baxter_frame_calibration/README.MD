@@ -151,4 +151,4 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 18. You can verify the results with the following commands to tilt and pan the Kinect:
 
 		rostopic pub /tilt_angle std_msgs/Float64 -- -45
-		ostopic pub /robot/head/command_head_pan baxter_core_msgs/HeadPanCommand -- 0.0 10
+		rostopic pub /robot/head/command_head_pan baxter_core_msgs/HeadPanCommand -- 0.0 10
