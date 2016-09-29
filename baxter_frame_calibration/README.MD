@@ -52,6 +52,7 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 		rviz
 
 4. Open a new terminal and launch `ar_track_alvar` on the robot left hand camera.
+
 		rosrun baxter_tools camera_control.py -o left_hand_camera -r 1280x800
 
 5. Check that the parameters in `baxter_indiv_left.launch` are correct (e.g. the marker dimensions), then launch it:
