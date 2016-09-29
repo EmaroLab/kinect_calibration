@@ -70,13 +70,13 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 
 7. Now open Matlab, move to the `baxter_frame_calibration` folder, then compute the homogeneous trasformation matrix as: 
 
-		ta = [x<sub>t</sub>, y<sub>t</sub>, z<sub>t</sub>]'
-		qa = [x<sub>q</sub>, y<sub>q</sub>, z<sub>q</sub>, w<sub>q</sub>]
+		ta = [xt, yt, zt]'
+		qa = [xq, yq, zq, wq]
 		Ta=quaternionToHomogenuesTrasnformation(ta,qa)
 
 	Do not close Matlab.
 
-8. Kill the process launched at point **3**.
+8. Kill the process launched at point **5**.
 
 9. Repeat the same procedure for the Kinect RGB camera. Check `kinect_indiv.launch` parameters and then launch it:
 		
