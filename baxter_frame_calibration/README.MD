@@ -129,7 +129,7 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 
 		rostopic pub /robot/head/command_head_pan baxter_core_msgs/HeadPanCommand -- -0.5 100
 
-15. Depending on the use case this may be enough for you. If you want to use the Kinect dynamically and get the point clouds in the world <fieldset></fieldset>rame even when the Kinect is tilting (or be free to tilt it as you want withouth going throught this calibration again), then you can use our driver. 
+15. Depending on the use case this may be enough for you. If you want to use the Kinect dynamically and get the point clouds in the world frame even when the Kinect is tilting (or be free to tilt it as you want withouth going throught this calibration again), then you can use our driver. 
 
 	First, you have to compute _**T<sub>t</sub>**_ expressed in the Kinect base tilt angle: 
 
