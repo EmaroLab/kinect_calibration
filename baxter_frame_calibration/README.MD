@@ -102,8 +102,8 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
  
 12. Go back to Matlab and type:
 
-		tc = [x<sub>t</sub>, y<sub>t</sub>, z<sub>t</sub>]'
-		qc = [x<sub>q</sub>, y<sub>q</sub>, z<sub>q</sub>, w<sub>q</sub>]
+		tc = [x, yt, zt]'
+		qc = [xq, yq, zq, wq]
 		Tc = quaternionToHomogenuesTrasnformation(tc,qc)
 
 13. You can finally compute **_T<sub>bk</sub>_** = **_T<sub>a</sub>T<sub>b</sub>T<sub>c</sub>_**, then transorm it back to the the ROS vector notation.
