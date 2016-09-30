@@ -64,7 +64,7 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 
 6. Retrieve the trasformation between `/head_camera` (parent) and _**m**_ (child):
 
-		rosrun tf tf_echo /left_hand_camera /ar_marker_8
+		rosrun tf tf_echo /head_camera /ar_marker_8
 
 	This will start printing on screen **_m<sub>c</sub>_** as a traslation [x<sub>t</sub>, y<sub>t</sub>, z<sub>t</sub>] and quaternion rotation [x<sub>q</sub>, y<sub>q</sub>, z<sub>q</sub>, w<sub>q</sub>]. You will notice that the readings are a bit noisy so collect a reasonable dataset and average the results.
 
