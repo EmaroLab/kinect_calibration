@@ -20,10 +20,17 @@ NITE v1.5.2.23 can currently be downloaded from [http://www.openni.ru/openni-sdk
 # Other Installation information
 
 ## Running
-to run the **driver** write:
+to run the **driver** you need to install:
+```
+sudo apt-get install ros-indigo-openni-camera 
+sudo apt-get install ros-indigo-openni-launch
+```
+Note that *openni_treacker* is not enymore in the uffical ROS repository but you can take it from here and place in your workspace (follow previous specification about NITE, and do: `catkin_make` to apply the changes). Than, run:
 ```
 roslaunch openni_launch openni.launch
+rosrun openni_tracker openni_tracker
 ```
+to make the tracker recognise you, put yourself in the *\Psi* pose and wait for a feedback from the openni_tracker node.
 
 ## Licencing
 you may experience an **error** like:
@@ -36,7 +43,7 @@ sudo niLicense -l 0KOIk2JeIBYClPWVnMoRKn5cdY4=
 ## Kinect Patching 
 if by doing this you receive a error message concerning that the **Kinect is not connected**, even indeed it is, you need to install a patch that can be found here: https://github.com/avin2/SensorKinect
 <p>
-To install it perform the following operations (references can be found here: http://www.sustainablenetworks.org/CIS623/?page_id=54):
+To install it, you should perform the following operations (references can be found here: http://www.sustainablenetworks.org/CIS623/?page_id=54):
 ```
 mkdir ~/kinectdriver
 cd ~/kinectdriver
