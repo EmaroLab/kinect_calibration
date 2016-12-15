@@ -4,7 +4,7 @@
 
 # help statament
 usage="     $(basename "$0") [-h] [-i] [-m] [-p] [-l]
-script to launch the ros driver foa a Kinect.
+script to launch the ros driver for a Kinect (freenect).
 
 where:
 	-h  show this help text
