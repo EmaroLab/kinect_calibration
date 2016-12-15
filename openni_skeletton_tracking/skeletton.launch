@@ -1,0 +1,11 @@
+
+<launch>
+
+  <!-- run keletton detactor and tracker (psi pose!!) -->
+  <node name="openni_tracker" pkg="openni_tracker" type="openni_tracker"/>
+
+  <!-- manage transformations between baxter and skeletton -->
+  <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 /cameraB_depth_frame /openni_depth_frame 100" />
+
+
+</launch>
