@@ -13,3 +13,13 @@ Nevertheless, this folder contains usefull scripts that can be used to automatis
 |[openniTerminal.sh](https://github.com/EmaroLab/kinect_calibration/blob/master/openni_skeleton_tracking/openniTerminal.sh)| export the `ROS_MASTER_URI` and `ROS_IP` in order to use the Baxter ROS core and runs the [openni-KinectB.launch](https://github.com/EmaroLab/kinect_calibration/blob/master/openni_skeleton_tracking/openni-KinectB.launch)|
 |[openniBaxterisedTerminal.sh](https://github.com/EmaroLab/kinect_calibration/blob/master/openni_skeleton_tracking/openniBaxterisedTerminal.sh)| export the `ROS_MASTER_URI` and `ROS_IP` in order to use the Baxter ROS core. Than, it runs the [openni-KinectB.launch](https://github.com/EmaroLab/kinect_calibration/blob/master/openni_skeleton_tracking/openni-KinectB.launch) and set the starting position of the kinect to 0° (parallel to the grand, for consistent calibration). Finally it runs the [skeleton.launch](https://github.com/EmaroLab/kinect_calibration/blob/master/openni_skeleton_tracking/skeletton.launch). **Attention:** be sure that the lastlauncher starts after that the previous completes its operation |
 |[openniRemoteTerminal.sh](https://github.com/EmaroLab/kinect_calibration/blob/master/openni_skeleton_tracking/openniRemoteTerminal.sh)| runs the [openniBaxterisedTerminal.sh](https://github.com/EmaroLab/kinect_calibration/blob/master/openni_skeleton_tracking/openniBaxterisedTerminal.sh) from a remote machine.|
+
+
+**Note:** Before launching it the first time on your machine, you need to exchange the ssh credentials between 
+your machine and the pc connected to the Baxter. To do so, run the following command in a terminal:
+
+```ssh emarolab@130.251.13.36```
+
+When you are asked for a password, type *"eureka"*.
+
+This procedure is required **only the first time you log into the Baxter pc from your machine** in order to store the SSH key.
