@@ -83,6 +83,7 @@ if [[ "$OPENNI_RUN" == "1" ]]; then
 	printf " wait that the openni driver is ready before to start tracker\n"
 	sleep 20 # be sure that the driver is fully loaded
 	printf " start skeletton tracking. Search for Psi poses...\n"
+	# do the same operation of skeleton.launch file...
 	rosrun openni_tracker openni_tracker &
 	rosrun tf static_transform_publisher 0 0 0 0 0 0 1 /cameraB_depth_frame /openni_depth_frame 100
 fi
