@@ -12,3 +12,6 @@ your machine and the pc connected to the Baxter. To do so, run the following com
 When you are asked for a password, type *"eureka"*.
 
 This procedure is required **only the first time you log into the Baxter pc from your machine**.
+
+
+To calibrate the kinect with respect to the Baxter you should add the [kinect_aux](https://github.com/EmaroLab/kinect_calibration/tree/master/emarolab_kincect_driver/kinect_aux) package (that contains only one node) in your workspace; be sure to call `catkin_make`!
