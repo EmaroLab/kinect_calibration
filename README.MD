@@ -11,7 +11,7 @@ Further documentation is included in each folder.
 | [emarolab\_kinect\_driver](https://github.com/EmaroLab/kinect_calibration/tree/master/emarolab_kincect_driver) | Includes some samples of how we launch one or more Kinects from a remote machine. This is quite specific to our setup and even if you work in the Emarolab you most probably can ignore these files since everything has already been set up. |
 | [kinectA_calibration(spare)](https://github.com/EmaroLab/kinect_calibration/tree/master/kinectA_calibration(spare)) | Contains our latest calibration of the spare Kinect. |
 | [kinectB_calibration(baxter)](https://github.com/EmaroLab/kinect_calibration/tree/master/kinectB_calibration(baxter)) | Contains our latest calibration of the Kinect mounted on the Baxter robot. |
-| [openni_skaletton_tracking(baxter)](https://github.com/EmaroLab/kinect_calibration/tree/master/openni_skeletton_tracking) | Contains a set up to use openni driver and perform skeleton tracking. |
+| [openni_skaletton_tracking](https://github.com/EmaroLab/kinect_calibration/tree/master/openni_skeletton_tracking) | Contains a set up to use openni driver and perform skeleton tracking with respect to Baxter frames. |
 
 
 
