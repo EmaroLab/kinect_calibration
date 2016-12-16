@@ -41,7 +41,7 @@ sudo niLicense -l 0KOIk2JeIBYClPWVnMoRKn5cdY4=
 ```
 
 ## Kinect Patching 
-if by doing this you receive a error message concerning that the **Kinect is not connected**, even indeed it is, you need to install a patch that can be found here: https://github.com/avin2/SensorKinect
+if by doing this you receive a error message concerning that the **Kinect is not connected**, but indeed it is. You need to install a patch that can be found here: https://github.com/avin2/SensorKinect
 <p>
 To install it, you should perform the following operations (references can be found here: http://www.sustainablenetworks.org/CIS623/?page_id=54):
 ```
