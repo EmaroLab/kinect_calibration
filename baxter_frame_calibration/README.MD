@@ -2,11 +2,15 @@
 
 This tutorial explains you how to properly attach the frames from Freenect ROS drivers to the Baxter frame tree. This is the procedure we followed in Emarolab so everything should already be set up, but you may need to repeat it if the Kinect has been moved or you notice inconsistent results.
 
-To follow this procedure you will need to download and install [ar_track_alvar](http://wiki.ros.org/ar_track_alvar) and print one QR Code. We used QR Code #8 which is the upper left code in image `table_8_9_10.png`. 
+To follow this procedure you will need to download and install [ar_track_alvar](http://wiki.ros.org/ar_track_alvar) and print some QR Codes. 
 
 You can install **ar_track_alvar** by running in your terminal:
 
 	sudo apt-get install ros-indigo-ar-track-alvar
+
+Then print the QR markers in `table_8_9_10.png`. We will use the three QR codes a s a bundle to obtain more precise results. You can also print them with a slight zoom so that the camera can detect them easier, just rememember to take note of their size once printed (for us 150% zoom resulted in 6cm markers). 
+
+Remember that if you modify the markers size, then you also have to modify the .xml file defining the bundle. If you work with 6cm markers as we did, you can use the attached `table_8_9_10.xml`, while for 4.4cm markers, an .xml file can be recovered from `ar_track_alvar` repository.
 
 ##	Notation
 
@@ -41,24 +45,27 @@ Where matrix **_T<sub>b</sub>_** represents the eventual rotation between **_m<s
 
 The following steps should all be performed in a _**baxterized terminal**_ (run `baxter.sh` in your workspace before any other command in every new terminal tab you open):
 
-1. Place a marker in such a way that both the Kinect and the camera on the left arm of the baxter can see it. You can tilt the Kinect now if you need it but if you do, take note of the tilt angle.
+1. Place a bundle of markers in such a way that both the Kinect and the camera on the left arm of the baxter can see it. You can tilt the Kinect now if you need it but if you do, take note of the tilt angle.
 	* Pay attention to tilt limit angles and frequency of tilt operations. The Kinect motors are very sensitive and they should be used offline for setup purposes, not online (e.g. tracking an object). Also, do not ask the Kinect to tilt above the tilt angle limits or it will get struck, forcing you to manually reset its position.
-	* If you tilt the Kinect, remember that the tilt angle is _**relative to the horizon**_ and not to an internal reference. This means that your tilt limits may change depending on the Kinect base inclination in your setup. In our mount position, Kinect can tilt from 0 to -60°.
+	* If you tilt the Kinect, remember that the tilt angle is _**relative to the horizon**_ and not to an internal reference. This means that your tilt limits may change depending on the Kinect base inclination in your setup. 
+	* If you mount the kinect in a position where it cannot reach the neutral position at startup (e.g. perpendicular to the floor), then the kinect will not be able to move.
 
-2. Run the kinect drivers. In the Emarolab this can be done by running `./baxterisedRemoteTerminal.sh`. This will launch the driver on the remote machine connected to the Baxter so make sure it is turned on and connected to the network through ethernet.
+2. Run the base kinect drivers. Either remotely or directly from the machine hosting the Kinect.
 
-3. Launch Rviz and visualize the Baxter.
+	roslaunch freenect_launch freenect.launch
+
+3. Launch Rviz.
 
 		rviz
 
-4. Open a new terminal and launch `ar_track_alvar` on the robot left hand camera.
+4.  You will need one of the Baxter cameras. We will use the left hand camera. make sure that the camera you are using is open and working at the right resolution.
 
 		rosrun baxter_tools camera_control.py -o left_hand_camera -r 1280x800
 
-5. Check that the parameters in `baxter_indiv_left.launch` are correct (e.g. the marker dimensions), then launch it:
+5. Check that the parameters in `bundle_calibration_left_hand_camera.launch` are correct (e.g. the marker dimensions, path to bundle .xml file), then launch it:
 
 		cd /YOUR_TEMP_PATH/kinect_calibration/baxter_frame_calibration 
-		roslaunch baxter_indiv_left.launch
+		roslaunch bundle_calibration_left_hand_camera.launch
 
 	Now, you should be able to see on Rviz **_m<sub>c</sub>_**. Take note of its orientation.
 
@@ -66,7 +73,7 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 
 		rosrun tf tf_echo /head_camera /ar_marker_8
 
-	This will start printing on screen **_m<sub>c</sub>_** as a traslation [x<sub>t</sub>, y<sub>t</sub>, z<sub>t</sub>] and quaternion rotation [x<sub>q</sub>, y<sub>q</sub>, z<sub>q</sub>, w<sub>q</sub>]. You will notice that the readings are a bit noisy so collect a reasonable dataset and average the results.
+	This will start printing on screen **_m<sub>c</sub>_** as a traslation [x<sub>t</sub>, y<sub>t</sub>, z<sub>t</sub>] and quaternion rotation [x<sub>q</sub>, y<sub>q</sub>, z<sub>q</sub>, w<sub>q</sub>]. If the readings are noisy, collect a reasonable dataset and average the results.
 
 7. Now open Matlab, move to the `baxter_frame_calibration` folder, then compute the homogeneous trasformation matrix as: 
 
@@ -78,25 +85,27 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 
 8. Kill the process launched at point **5**.
 
-9. Repeat the same procedure for the Kinect RGB camera. Check `kinect_indiv.launch` parameters and then launch it:
+9. Repeat the same procedure for the Kinect camera. Check `bundle_calibration_kinect_camera.launch` parameters and then launch it:
 		
 		cd /YOUR_TEMP_PATH/kinect_calibration/baxter_frame_calibration
-		roslaunch kinect_indiv.launch
+		roslaunch bundle_calibration_kinect_camera.launch
 
-	Now you should see the marker **_m<sub>rgb</sub>_** on Rviz given with respect to the Kinect. Take note of its orientation.
+	Now you should see the marker **_m<sub>rgb</sub>_** on Rviz given with respect to `/camera_link`. Take note of its orientation.
 
-	**NOTE:** if this is the first time you follow this procedure, the Baxter is not going to be visualized on Rviz at this stage. Once this procedure will be completed, the Kinect tree will be attached to the Baxter one and you will be able to visualize everything correctly. 
+	**NOTE:** At this stage the Baxter frame tree and the kinect frame tree re still separate. If you need to visualize something in Rviz make sure to to modify the reference frame accordingly. This issue will be solved at the end of the preocedure. 
 
-10. Identify _**T<sub>b</sub>**_. Compare the results of point **5** and **8** and check the orientation of  **_m<sub>c</sub>_** with respect to **_m<sub>rgb</sub>_**. In Emarolab setup this is: 
+10. Identify _**T<sub>b</sub>**_. Compare the results of point **5** and **8** and check the orientation of  **_m<sub>c</sub>_** with respect to **_m<sub>rgb</sub>_**. If you are using the kinect camera as a depth camera (the default choice of this tutorial),then there should be a rotation between the two frames you are visualizing, resulting in the following transformation matrix.
 
 	**_T<sub>b</sub>_**  = [0 -1  0  0; 
-							1  0  0  0; 
-							0  0  1  0; 
-							0  0  0  1] 
+				1  0  0  0; 
+				0  0  1  0; 
+				0  0  0  1] 
+	
+	If you are using the kinect like a generica camera (i.e. using the `no_kinect` launch files from `ar_track_alvar`), then **_T<sub>b</sub>_** is just the identity matrix.
 
 11. Retrieve the trasformation between **_m<sub>rgb</sub>_** (parent) and _**k**_ (child):
 
-		rosrun tf tf_echo /ar_marker_8 /cameraB_link
+		rosrun tf tf_echo /ar_marker_8 /camera_link
 
 	let it print some readings and average the results. At the end you should get a transformation described as a traslation [x<sub>t</sub>, y<sub>t</sub>, z<sub>t</sub>] and a quaternion rotation [x<sub>q</sub>, y<sub>q</sub>, z<sub>q</sub>, w<sub>q</sub>].
  
@@ -115,21 +124,24 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 
 14. If this is the first time you calibrate your system, try the obtained results by publishing the trasformation that links the Kinect to the robot, e.g.: 
 	
-		rosrun tf static_transform_publisher 0.0539 0.0099 0.0436 -0.3516 -0.3173 -0.6416 0.6034 /head_camera /cameraB_link 100
+		rosrun tf static_transform_publisher 0.0539 0.0099 0.0436 -0.3516 -0.3173 -0.6416 0.6034 /head_camera /camera_link 100
 
 	where the numbers are collected in a vector: 
 
 		[tt qt] = [ttx tty ttz qtx qty qtz qtw]
 
-	Check in rviz that camera link is correctly posed on the robot and that now you can visualize the pointcloud with respect to any Baxter frame.
+	Check in rviz that camera link is correctly posed on the robot and that now you can visualize the point cloud with respect to any Baxter frame.
 
-	**NOTE:** If this procedure has already been performed on your system in the past, i.e. you are using Emarolab setup, you are implicitly publishing this transform whenever you launch the Kinect driver. Testing your results as suggested in this point will result in two different nodes publishing the same transform and a noticeable flickering of the frame in Rviz. You can still try it this way to get an idea, but be aware of the artifact.
+15. (Optional) Move the robot head and check out in rviz that everything is working (e.g. point clouds are correclty behaving). Make sure to move at low speed since now there is a significant load on the head which may result in dangerous overshoots and/or ruin your calibration. 
 
-15. Move the robot hand and check out in rviz that everything is working (e.g. point clouds are correclty behaving) : 
+		rostopic pub /robot/head/command_head_pan baxter_core_msgs/HeadPanCommand -- -0.5 0.2 1
+		rostopic pub /robot/head/command_head_pan baxter_core_msgs/HeadPanCommand -- 0.0 0.2 1
 
-		rostopic pub /robot/head/command_head_pan baxter_core_msgs/HeadPanCommand -- -0.5 100
+16. Modify the calibration values in `kinect_aux_node.cpp`. Compile and run.
 
-15. Depending on the use case this may be enough for you. If you want to use the Kinect dynamically and get the point clouds in the world frame even when the Kinect is tilting (or be free to tilt it as you want withouth going throught this calibration again), then you can use our driver. 
+The following steps should be followed only if you plan to move the Kinect and dynamically get point clouds in the world frame even when the Kinect is tilting. In the current mounting position this is not possible, but it is possible to achive the same results by using the Baxter head pan/tilt mechanism.
+
+17. Correct your result by the angle you used during frame calibration.
 
 	First, you have to compute _**T<sub>t</sub>**_ expressed in the Kinect base tilt angle: 
 
@@ -143,13 +155,13 @@ The following steps should all be performed in a _**baxterized terminal**_ (run 
 		Ttilt = Tt * Rtilt
 
 
-16. Now modify the driver node `kinect_aux_node.cpp` by assigning to variable `baxterCalibration` the obtainted value of _**T<sub>tilt</sub>**_.
+18. Modify the driver node `kinect_aux_node.cpp` by assigning to variable `baxterCalibration` the obtainted value of _**T<sub>tilt</sub>**_.
 
-17. Finally create a package in your workspace for the driver and compile it. In the Emarolab setup just modify the existing driver package and compile it to apply the change. 
+19. Finally create a package in your workspace for the driver and compile it. In the Emarolab setup just modify the existing driver package and compile it to apply the change. 
 
 **You can now launch this driver to use the Kinect with the Baxter and move it freely!** 
 
-18. You can verify the results with the following commands to tilt and pan the Kinect:
+20. You can verify the results with the following commands to tilt and pan the Kinect:
 
 		rostopic pub /tilt_angle std_msgs/Float64 -- -45
 		rostopic pub /robot/head/command_head_pan baxter_core_msgs/HeadPanCommand -- 0.0 10
