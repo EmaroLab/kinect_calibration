@@ -1,4 +1,4 @@
-#Kinect driver launchfiles
+# Kinect driver launchfiles
 
 This folder contains various launchfiles to run our Kinects. 
 The default procedure to work with the Baxter is to launch the Kinect through the pc connected to the robot.
